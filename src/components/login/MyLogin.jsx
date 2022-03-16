@@ -35,6 +35,7 @@ export default function MyLogin() {
       if (res.ok) {
         let data = await res.json();
         console.log(data.posts);
+        localStorage.setItem("MyToken", data.accessToken);
         navigate("/");
         console.log("Successfully logged in!");
       }

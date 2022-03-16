@@ -1,14 +1,20 @@
-import { async } from "q";
 import React, { useEffect, useState } from "react";
 import MyNavbar from "./MyNavbar";
 
 function Main() {
+  const myToken = localStorage.getItem("MyToken");
+  const dataJson = JSON.parse(JSON.stringify(myToken));
+  console.log(dataJson);
+  const [myLocalStorageData, setMyLocalStorageData] = useState("");
   const [blogs, setBlogs] = useState([]);
   const fetchData = async () => {
     try {
       let res = await fetch("http://localhost:3001/user/me/stories", {
         method: "GET",
-        headers: {},
+        headers: {
+          Authorization: `Bearer ` + dataJson,
+          "Content-type": "application/json",
+        },
       });
       if (res.ok) {
         let data = await res.json();
