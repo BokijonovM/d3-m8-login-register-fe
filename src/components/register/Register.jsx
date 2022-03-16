@@ -35,22 +35,22 @@ export default function Register() {
         body: JSON.stringify(newPost),
         headers: { "Content-type": "application/json" },
       });
+
       if (res.ok) {
         let data = await res.json();
         console.log(data.posts);
+        console.log("Successfully registered!");
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {}, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log("Successfully registered!");
     handleRegister();
-    navigate("/");
   };
 
   return (

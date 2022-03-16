@@ -11,17 +11,42 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function MyLogin() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async () => {
+    const newPost = {
+      email: email,
+      password: password,
+    };
+    try {
+      let res = await fetch("http://localhost:3001/user/login", {
+        method: "POST",
+        body: JSON.stringify(newPost),
+        headers: { "Content-type": "application/json" },
+      });
+      if (res.status !== 200) alert("you you entered wrong password or email");
+      if (res.ok) {
+        let data = await res.json();
+        console.log(data.posts);
+        navigate("/");
+        console.log("Successfully logged in!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    handleRegister();
   };
 
   return (
@@ -55,6 +80,8 @@ export default function MyLogin() {
               id="email"
               label="Email Address"
               name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
               autoFocus
             />
@@ -66,6 +93,8 @@ export default function MyLogin() {
               label="Password"
               type="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
 
@@ -74,6 +103,7 @@ export default function MyLogin() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={!email || !password}
             >
               Sign In
             </Button>
