@@ -11,17 +11,46 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async () => {
+    const newPost = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+    };
+    try {
+      let res = await fetch("http://localhost:3001/user/register", {
+        method: "POST",
+        body: JSON.stringify(newPost),
+        headers: { "Content-type": "application/json" },
+      });
+      if (res.ok) {
+        let data = await res.json();
+        console.log(data.posts);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {}, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    console.log("Successfully registered!");
+    handleRegister();
+    navigate("/");
   };
 
   return (
@@ -56,6 +85,8 @@ export default function Register() {
                   required
                   fullWidth
                   id="firstName"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   label="First Name"
                   autoFocus
                 />
@@ -67,6 +98,8 @@ export default function Register() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -77,6 +110,8 @@ export default function Register() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
                 />
               </Grid>
@@ -88,6 +123,8 @@ export default function Register() {
                   label="Password"
                   type="password"
                   id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -97,6 +134,7 @@ export default function Register() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={!firstName || !lastName || !email || !password}
             >
               Sign Up
             </Button>
