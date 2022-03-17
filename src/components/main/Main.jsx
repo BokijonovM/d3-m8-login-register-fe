@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import MyNavbar from "./MyNavbar";
 import { Row, Col, Container, Card } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function Main() {
   // const location = useLocation()
+  const params = useParams();
   const currentURL = window.location.href;
   const pathName = currentURL.slice(35);
   if (pathName.length > 1) {
