@@ -2,7 +2,7 @@ import React from "react";
 import { Nav, Navbar, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-function MyNavbar() {
+function MyNavbar({ isLoggedIn }) {
   const navigate = useNavigate();
   return (
     <div>
@@ -14,21 +14,31 @@ function MyNavbar() {
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
           </Nav>
-          <Nav>
+          {isLoggedIn ? (
             <Button
               className="mr-2"
               variant="outline-primary"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/")}
             >
-              Login
-            </Button>{" "}
-            <Button
-              variant="outline-secondary"
-              onClick={() => navigate("/register")}
-            >
-              Register
-            </Button>{" "}
-          </Nav>
+              Profile
+            </Button>
+          ) : (
+            <Nav>
+              <Button
+                className="mr-2"
+                variant="outline-primary"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </Button>{" "}
+              <Button
+                variant="outline-secondary"
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </Button>{" "}
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Navbar>
     </div>
