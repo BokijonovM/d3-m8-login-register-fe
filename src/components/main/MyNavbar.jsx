@@ -18,9 +18,12 @@ function MyNavbar({ isLoggedIn }) {
             <Button
               className="mr-2"
               variant="outline-primary"
-              onClick={() => navigate("/")}
+              onClick={() => {
+                localStorage.clear();
+                window.location.href = "/";
+              }}
             >
-              Profile
+              Logout
             </Button>
           ) : (
             <Nav>

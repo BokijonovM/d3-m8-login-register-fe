@@ -98,6 +98,21 @@ export default function MyLogin() {
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
+            <div className="d-flex align-items-center">
+              <a href="http://localhost:3001/user/googleLogin">
+                <Button
+                  className="d-flex align-items-center"
+                  fullWidth
+                  // variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  // onClick={() =>
+                  //   navigate("http://localhost:30001/user/googleLogin")
+                  // }
+                >
+                  Google
+                </Button>
+              </a>
+            </div>
 
             <Button
               type="submit"

@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import MyNavbar from "./MyNavbar";
 import { Row, Col, Container, Card } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 
 function Main() {
+  // const location = useLocation()
+  const currentURL = window.location.href;
+  const pathName = currentURL.slice(35);
+  if (pathName.length > 1) {
+    localStorage.setItem("MyToken", pathName);
+  }
+
   const myToken = localStorage.getItem("MyToken");
   const dataJson = JSON.parse(JSON.stringify(myToken));
   const [blogs, setBlogs] = useState([]);
