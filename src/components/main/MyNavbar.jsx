@@ -19,7 +19,7 @@ function MyNavbar({ isLoggedIn }) {
               className="mr-2"
               variant="outline-primary"
               onClick={() => {
-                localStorage.clear();
+                localStorage.removeItem("MyToken");
                 window.location.href = "/";
               }}
             >
