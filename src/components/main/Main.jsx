@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import MyNavbar from "./MyNavbar";
 import { Row, Col, Container, Card } from "react-bootstrap";
-import { useParams } from "react-router-dom";
 
 function Main() {
-  // const location = useLocation()
-  const params = useParams();
-  const currentURL = window.location.href;
-  const pathName = currentURL.slice(35);
-  if (pathName.length > 1) {
-    localStorage.setItem("MyToken", pathName);
-  }
+  const url = window.location;
+
+  const access_token = () => {
+    if (new URLSearchParams(url.search).get("accessToken")) {
+      const data = new URLSearchParams(url.search).get("accessToken");
+      console.log("hello", data);
+      localStorage.setItem("MyToken", data);
+      return data;
+    } else if (localStorage.getItem("MyToken")) {
+      console.log("hi");
+      return localStorage.getItem("MyToken");
+    }
+  };
+  useEffect(() => {
+    access_token();
+  }, []);
 
   const myToken = localStorage.getItem("MyToken");
   const dataJson = JSON.parse(JSON.stringify(myToken));
@@ -29,6 +37,7 @@ function Main() {
         let data = await res.json();
         setBlogs(data);
         setIsLoggedIn(true);
+        console.log("fetch");
       } else {
         console.log("fetch error");
       }
@@ -39,6 +48,7 @@ function Main() {
 
   useEffect(() => {
     fetchData();
+    console.log("fetch use");
   }, []);
   return (
     <div>
